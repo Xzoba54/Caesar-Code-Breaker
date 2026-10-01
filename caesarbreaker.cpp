@@ -2,6 +2,7 @@
 #include <fstream>
 #include <filesystem>
 #include <optional>
+#include <cctype>
 
 enum class ExecutionMode{
      Break,
@@ -95,7 +96,7 @@ class TextNormalizer{
 public:
      TextNormalizer() = delete;
 
-     static std::string normalize(std::string_view text){
+     static std::string normalize(std::string_view text) noexcept {
           std::string result;
 
           std::size_t length = text.size();
@@ -106,8 +107,39 @@ public:
 
           while (i < length){
                unsigned char c = text[i];
+               if(c >= 128){
+                    std::string ch = std::string(text.substr(i, 2));
 
+                    if(ch == "ę" || ch == "Ę") result += "e";
+                    else if(ch == "ó" || ch == "Ó") result += "o";
+                    else if(ch == "ą" || ch == "Ą") result += "a";
+                    else if(ch == "ś" || ch == "Ś") result += "s";
+                    else if(ch == "ł" || ch == "Ł") result += "l";
+                    else if(ch == "ż" || ch == "Ż") result += "z";
+                    else if(ch == "ź" || ch == "Ź") result += "z";
+                    else if(ch == "ć" || ch == "Ć") result += "c";
+                    else if(ch == "ń" || ch == "Ń") result += "n";
+                    else{
+                         ++i;
+                         continue;
+                    }
 
+                    i += 2;
+                    continue;
+               }
+
+               // int j = i;
+               // while (j < length) {
+               //      if (std::isdigit(text[j])){
+               //           j += 1;
+               //      }
+               // }
+
+               if(c == ' '){
+                    i += 1;
+                    result+= " ";
+                    continue;
+               }
 
                if(c == '('){
                     bracket_depth+=1;
@@ -125,15 +157,42 @@ public:
                     continue;
                }
 
+               if(!std::isalnum(c)){
+                    ++i;
+                    continue;
+               }
+
+               result += std::tolower(c);
+               i += 1;
           }
 
           return result;
      }
 };
 
+class ICipher {
+public:
+     virtual std::string encrypt(std::string_view text) const noexcept = 0;
+     virtual std::string decrypt(std::string_view text) const noexcept = 0;
+};
+
+class CaesarCipher : public ICipher {
+public:
+     std::string encrypt(std::string_view text) const noexcept override {
+          return "";
+     }
+     std::string decrypt(std::string_view text) const noexcept override {
+          return "";
+     }
+};
+
 int main(int argc, char* argv[]){
      try{
           CLIParser::parse(argc, argv);
+
+          std::string raw_text = "Wzrost (gospodarczy tak) spada do zera lub gospodarka się kurczy.";
+          std::string res = TextNormalizer::normalize(raw_text);
+          std::cout << res;
      }
      catch(const UnknownFlagError& e){
           std::cerr << e.what() << "\n";

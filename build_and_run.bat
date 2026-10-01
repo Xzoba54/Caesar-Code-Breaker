@@ -1,3 +1,3 @@
 @echo off
-g++ -std=c++23 cesarbreaker.cpp -o "cesarbreaker"
-cesarbreaker.exe %*
+g++ -std=c++23 caesarbreaker.cpp -o "caesarbreaker"
+caesarbreaker.exe %*

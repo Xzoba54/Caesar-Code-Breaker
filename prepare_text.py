@@ -28,7 +28,7 @@ def normalize_numbers(s: str):
             while j < len(s):
                 if s[j].isdigit():
                     j += 1
-                elif s[j] == " " and j + j < len(s) and s[j + 1].isdigit():
+                elif s[j] == " " and j + 1 < len(s) and s[j + 1].isdigit():
                     j += 1
                 else:
                     break
