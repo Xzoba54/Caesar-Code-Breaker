@@ -1,5 +1,7 @@
-raw_text.txt
+data/samples/*
 plaintext.txt
 ngrams.txt
 caesarbreaker.exe
-tests/__pycache__
+__pycache__
+.pytest_cache
+src/output.txt
