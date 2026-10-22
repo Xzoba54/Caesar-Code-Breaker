@@ -1,4 +1,4 @@
-from src.analysis.ngrams import normalize_ngrams_count, make_ngrams
+from src.analysis.ngrams import normalize_ngrams, make_ngrams
 
 def test_make_ngrams():
     assert make_ngrams("abab", 2) == {
@@ -33,19 +33,19 @@ def test_make_ngrams_with_spaces():
     }
 
 
-def test_normalize_ngrams_count():
+def test_normalize_ngrams():
     ngrams = {
         "ab": 2,
         "ba": 1,
     }
 
-    assert normalize_ngrams_count(ngrams) == {
+    assert normalize_ngrams(ngrams) == {
         "ab": round(2 / 3, 12),
         "ba": round(1 / 3, 12),
     }
 
 
-def test_normalize_ngrams_count_equal_values():
+def test_normalize_ngrams_equal_values():
     ngrams = {
         "aa": 2,
         "bb": 2,
@@ -53,7 +53,7 @@ def test_normalize_ngrams_count_equal_values():
         "dd": 2,
     }
 
-    assert normalize_ngrams_count(ngrams) == {
+    assert normalize_ngrams(ngrams) == {
         "aa": 0.25,
         "bb": 0.25,
         "cc": 0.25,
@@ -61,20 +61,20 @@ def test_normalize_ngrams_count_equal_values():
     }
 
 
-def test_normalize_ngrams_count_single_ngram():
-    assert normalize_ngrams_count({"abc": 5}) == {
+def test_normalize_ngrams_single_ngram():
+    assert normalize_ngrams({"abc": 5}) == {
         "abc": 1.0,
     }
 
 
-def test_normalize_ngrams_count_rounding():
+def test_normalize_ngrams_rounding():
     ngrams = {
         "a": 1,
         "b": 1,
         "c": 1,
     }
 
-    result = normalize_ngrams_count(ngrams)
+    result = normalize_ngrams(ngrams)
 
     assert result == {
         "a": 0.333333333333,

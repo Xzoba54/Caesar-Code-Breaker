@@ -1,27 +1,23 @@
+from collections import defaultdict
+
 def make_ngrams(text: str, n: int) -> dict[str, int]:
-     ngrams = {}
+     ngrams = defaultdict(int)
      i = 0
      k = len(text)
      while i < k - n + 1:
           ngram = text[i:i+n]
-          if ngram not in ngrams:
-               ngrams[ngram] = 1
-          else:
-               ngrams[ngram] += 1
+          ngrams[ngram] += 1
           i+=1
      return ngrams
 
-def total_ngrams(ngrams: dict[str, int]) -> int:
-     return sum(ngrams.values())
-
-def normalize_ngrams_count(ngrams: dict[str, int]) -> dict[str, float]:
-     total = total_ngrams(ngrams)
+def normalize_ngrams(ngrams: dict[str, int]) -> dict[str, float]:
+     total_ngrams = sum(ngrams.values())
      precision = 12
 
-     ngram_frequency = {}
+     normalized_ngrams = {}
      for ngram, count in ngrams.items():
-          ngram_frequency[ngram] = round(count / total, precision)
-     return ngram_frequency
+          normalized_ngrams[ngram] = round(count / total_ngrams, precision)
+     return normalized_ngrams
 
 def export_ngrams(path: str, ngrams: dict[str, float]):
      with open(path, "w") as file:
