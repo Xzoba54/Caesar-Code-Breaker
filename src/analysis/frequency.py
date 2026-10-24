@@ -1,21 +1,12 @@
-from collections import defaultdict
+def expected_counts(probabilities: dict[chr, float], text_length: int) -> dict[chr, float]:
+     expected = {}
+     for character, probability in probabilities.items():
+          expected[character] = probability * text_length
+     return expected
 
-def calculate_frequency(text: str) -> dict[chr, int]:
-     frequency = defaultdict(int)
-     for c in text:
-          frequency[c] += 1
-     return frequency
-
-def normalize_frequency(frequency: dict[chr, int]) -> dict[chr, float]:
-     total_characters = sum(frequency.values())
-     precision = 12
-
-     normalized_frequency = {}
-     for c, count in frequency.items():
-          normalize_frequency[c] = round(count / total_characters, precision)
-     return normalized_frequency
-
-def export_frequency(path: str, normalized_frequency: dict[chr, float]):
-     with open(path, "w") as file:
-          for c, probability in normalized_frequency.items():
-               file.write(f"{c}: {str(probability)}\n")
+def chi_square(observed: dict[chr, int], expected: dict[chr, float]) -> float:
+     score = 0.0
+     for character, expected_count in expected.items():
+          observed_count = observed.get(character, 0)
+          score += (observed_count - expected_count)**2 / expected_count
+     return -score

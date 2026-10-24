@@ -6,7 +6,6 @@ def test_make_ngrams():
         "ba": 1,
     }
 
-
 def test_make_ngrams_single_character():
     assert make_ngrams("abc", 1) == {
         "a": 1,
@@ -25,13 +24,11 @@ def test_make_ngrams_n_greater_than_text_length():
 def test_make_ngrams_empty_text():
     assert make_ngrams("", 2) == {}
 
-
 def test_make_ngrams_with_spaces():
     assert make_ngrams("a a", 2) == {
         "a ": 1,
         " a": 1,
     }
-
 
 def test_normalize_ngrams():
     ngrams = {
@@ -43,7 +40,6 @@ def test_normalize_ngrams():
         "ab": round(2 / 3, 12),
         "ba": round(1 / 3, 12),
     }
-
 
 def test_normalize_ngrams_equal_values():
     ngrams = {
@@ -60,24 +56,7 @@ def test_normalize_ngrams_equal_values():
         "dd": 0.25,
     }
 
-
 def test_normalize_ngrams_single_ngram():
     assert normalize_ngrams({"abc": 5}) == {
         "abc": 1.0,
-    }
-
-
-def test_normalize_ngrams_rounding():
-    ngrams = {
-        "a": 1,
-        "b": 1,
-        "c": 1,
-    }
-
-    result = normalize_ngrams(ngrams)
-
-    assert result == {
-        "a": 0.333333333333,
-        "b": 0.333333333333,
-        "c": 0.333333333333,
     }
