@@ -1,14 +1,15 @@
-from .normalization import normalize_for_ngrams, join_multiple_lines
-from .ngrams import make_ngrams, normalize_ngrams, export_ngrams, import_ngrams
-from .frequency import calculate_frequency, normalize_frequency
+from .normalization import normalize_text, import_training_raw_text
+from .ngrams import make_ngrams, normalize_ngrams
+from .frequency import expected_counts, chi_square
+from .model_io import import_probabilities, export_probabilities
 
 __all__ = [
-     "normalize_for_ngrams",
-     "join_multiple_lines",
+     "normalize_text",
+     "import_training_raw_text",
      "make_ngrams",
      "normalize_ngrams",
-     "export_ngrams",
-     "import_ngrams",
-     "calculate_frequency",
-     "normalize_frequency"
+     "expected_counts",
+     "import_probabilities",
+     "export_probabilities",
+     "chi_square"
 ]
