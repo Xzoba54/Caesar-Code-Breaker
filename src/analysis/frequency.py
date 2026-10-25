@@ -9,4 +9,4 @@ def chi_square(observed: dict[chr, int], expected: dict[chr, float]) -> float:
      for character, expected_count in expected.items():
           observed_count = observed.get(character, 0)
           score += (observed_count - expected_count)**2 / expected_count
-     return -score
+     return score

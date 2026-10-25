@@ -1,4 +1,5 @@
 from pathlib import Path
+from heapq import nlargest
 
 def import_probabilities(path: str | Path) -> dict[str, float]:
      probabilities = {}
@@ -20,7 +21,7 @@ def import_probabilities(path: str | Path) -> dict[str, float]:
 
 def export_probabilities(path: str | Path, probabilities: dict[str, float], limit: int = 10000):
      path = Path(path)
-     sorted_probabilities = dict(sorted(probabilities.items(), key=lambda x: x[1], reverse=True))
+     sorted_probabilities = dict(nlargest(limit, probabilities.items(), lambda x: x[1]))
      with open(path, "w") as file:
           k = 0
           for ngram, probability in sorted_probabilities.items():
