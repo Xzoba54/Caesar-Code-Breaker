@@ -1,7 +1,7 @@
 from pathlib import Path
 
 def import_probabilities(path: str | Path) -> dict[str, float]:
-     ngrams = {}
+     probabilities = {}
      path = Path(path)
      if not path.is_file():
           raise FileNotFoundError(f"Error: File not found {path}")
@@ -15,14 +15,15 @@ def import_probabilities(path: str | Path) -> dict[str, float]:
                     raise ValueError(f"Error: Key not found in file {path}")
                if probability == "":
                     raise ValueError(f"Error: Value not found in file {path}")
-               ngrams[ngram] = float(probability)
-     return ngrams
+               probabilities[ngram] = float(probability)
+     return probabilities
 
-def export_probabilities(path: str | Path, ngrams: dict[str, float], limit: int = 10000):
+def export_probabilities(path: str | Path, probabilities: dict[str, float], limit: int = 10000):
      path = Path(path)
+     sorted_probabilities = dict(sorted(probabilities.items(), key=lambda x: x[1], reverse=True))
      with open(path, "w") as file:
           k = 0
-          for ngram, probability in ngrams.items():
+          for ngram, probability in sorted_probabilities.items():
                if k >= limit:
                     break
                k += 1

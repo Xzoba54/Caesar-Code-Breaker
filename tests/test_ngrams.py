@@ -1,4 +1,4 @@
-from src.analysis.ngrams import normalize_ngrams, make_ngrams
+from src.analysis.ngrams import normalize_counts, make_ngrams
 
 def test_make_ngrams():
     assert make_ngrams("abab", 2) == {
@@ -30,18 +30,18 @@ def test_make_ngrams_with_spaces():
         " a": 1,
     }
 
-def test_normalize_ngrams():
+def test_normalize_counts():
     ngrams = {
         "ab": 2,
         "ba": 1,
     }
 
-    assert normalize_ngrams(ngrams) == {
+    assert normalize_counts(ngrams) == {
         "ab": round(2 / 3, 12),
         "ba": round(1 / 3, 12),
     }
 
-def test_normalize_ngrams_equal_values():
+def test_normalize_counts_equal_values():
     ngrams = {
         "aa": 2,
         "bb": 2,
@@ -49,14 +49,14 @@ def test_normalize_ngrams_equal_values():
         "dd": 2,
     }
 
-    assert normalize_ngrams(ngrams) == {
+    assert normalize_counts(ngrams) == {
         "aa": 0.25,
         "bb": 0.25,
         "cc": 0.25,
         "dd": 0.25,
     }
 
-def test_normalize_ngrams_single_ngram():
-    assert normalize_ngrams({"abc": 5}) == {
+def test_normalize_counts_single_ngram():
+    assert normalize_counts({"abc": 5}) == {
         "abc": 1.0,
     }

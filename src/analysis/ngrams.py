@@ -14,7 +14,7 @@ def make_ngrams(text: str, n: int) -> dict[str, int]:
           i+=1
      return ngrams
 
-def normalize_ngrams(ngrams: dict[str, int]) -> dict[str, float]:
+def normalize_counts(ngrams: dict[str, int]) -> dict[str, float]:
      total_ngrams = sum(ngrams.values())
      precision = 12
      normalized_ngrams = {}
